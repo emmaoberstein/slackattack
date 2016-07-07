@@ -1,6 +1,7 @@
 
 import botkit from 'botkit';
 const request = require('request');
+const Yelp = require('yelp');
 // this is es6 syntax for importing libraries
 // in older js this would be: var botkit = require('botkit')
 
@@ -16,6 +17,13 @@ const slackbot = controller.spawn({
 }).startRTM(err => {
   // start the real time message client
   if (err) { throw new Error(err); }
+});
+
+const yelp = new Yelp({
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  token: process.env.TOKEN,
+  token_secret: process.env.TOKEN_SECRET,
 });
 
 // prepare webhook
@@ -51,9 +59,8 @@ controller.hears(['hungry', 'hunger', 'food'], ['direct_message', 'direct_mentio
       {
         pattern: bot.utterances.yes,
         callback: () => {
-          convo.say('Sweet!');
           // do something else...
-          askType(response, convo);
+          askType(convo);
           convo.next();
         },
       },
@@ -68,14 +75,41 @@ controller.hears(['hungry', 'hunger', 'food'], ['direct_message', 'direct_mentio
       },
     ]);
   }
-  function askType(response, convo) {
-    convo.ask('What type of food would you like?', () => {
+  function askType(convo) {
+    convo.ask('Sweet! What type of food would you like?', (response) => {
       askWhere(response, convo);
       convo.next();
     });
   }
-  function askWhere(response, convo) {
-    convo.ask('Where are you?', () => {
+  function askWhere(type, convo) {
+    convo.ask('Where are you?', (response) => {
+      convo.say(`Ok! Let me find you ${type.text} in ${response.text}`);
+
+      yelp.search({ term: `${type.text}`, location: `${response.text}` }).then((data) => {
+        if (data.businesses.length < 1) {
+          convo.say(`Hmm... I can't seem to find ${type.text} in ${response.text}`);
+        } else {
+          console.log(data.businesses[0].name);
+          const attachments = {
+            text: `${data.businesses[0].rating}`,
+            attachments: [
+              {
+                fallback: 'To be useful, I need you to invite me in a channel.',
+                title: `${data.businesses[0].name}`,
+                title_link: `${data.businesses[0].url}`,
+                text: `${data.businesses[0].snippet_text}`,
+                image_url: `${data.businesses[0].image_url}`,
+                color: '#7CD197',
+              },
+            ],
+          };
+
+          convo.say(attachments);
+        }
+      }).catch((err) => {
+        convo.say(`Hm... I can't seem to find ${type.text} in ${response.text}`);
+        console.error(err);
+      });
       convo.next();
     });
   }
@@ -84,7 +118,7 @@ controller.hears(['hungry', 'hunger', 'food'], ['direct_message', 'direct_mentio
 });
 
 // food queries via yelp API
-controller.hears('weather', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   function askWeather(response, convo) {
     convo.ask('Would you like to hear the forecast?', [
       {
@@ -97,6 +131,7 @@ controller.hears('weather', ['direct_message', 'direct_mention', 'mention'], (bo
       {
         pattern: bot.utterances.yes,
         callback: () => {
+          // do something else...
           askZip(convo);
           convo.next();
         },
@@ -118,8 +153,7 @@ controller.hears('weather', ['direct_message', 'direct_mention', 'mention'], (bo
         {
           pattern: /^\d{5}(-\d{4})?$/,
           callback: (response) => {
-            const zip = response.text;
-            getWeather(zip, convo);
+            getWeather(response, convo);
             convo.next();
           },
         },
@@ -135,8 +169,8 @@ controller.hears('weather', ['direct_message', 'direct_mention', 'mention'], (bo
       ]);
   }
 
-  function getWeather(response, convo) {
-    const zip = response.text;
+  function getWeather(zipcode, convo) {
+    const zip = zipcode.text;
     const url = `http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&units=imperial&appid=${process.env.WEATHER_API_TOKEN}`;
     request(url, (error, response, body) => {
       if (!error && response.statusCode === 200) {
@@ -181,6 +215,7 @@ controller.hears(['cat', 'kitten', 'kitty'], 'direct_message, direct_mention', (
 
   bot.reply(message, attachments);
 });
+
 
 // defualt
 controller.hears([''], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
