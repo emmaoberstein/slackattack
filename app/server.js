@@ -89,9 +89,8 @@ controller.hears(['hungry', 'hunger', 'food'], ['direct_message', 'direct_mentio
         if (data.businesses.length < 1) {
           convo.say(`Hmm... I can't seem to find ${type.text} in ${response.text}`);
         } else {
-          console.log(data.businesses[0].name);
           const attachments = {
-            text: `${data.businesses[0].rating}`,
+            text: `rating: ${data.businesses[0].rating}`,
             attachments: [
               {
                 fallback: 'To be useful, I need you to invite me in a channel.',
@@ -103,14 +102,14 @@ controller.hears(['hungry', 'hunger', 'food'], ['direct_message', 'direct_mentio
               },
             ],
           };
-
           convo.say(attachments);
+          console.log(attachments);
+          convo.next();
         }
       }).catch((err) => {
         convo.say(`Hm... I can't seem to find ${type.text} in ${response.text}`);
         console.error(err);
       });
-      convo.next();
     });
   }
 
@@ -188,8 +187,8 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
             },
           ],
         };
-
         convo.say(attachments);
+        console.log(attachments);
       } else {
         convo.say('I can\'t seem to find the weather for that zip code.');
       }
@@ -216,9 +215,17 @@ controller.hears(['cat', 'kitten', 'kitty'], 'direct_message, direct_mention', (
   bot.reply(message, attachments);
 });
 
+// help
+controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+  bot.api.users.info({ user: message.user }, (err, res) => {
+    bot.reply(message, 'Hi, I\'m emma_bot!\n' +
+    'I can give you food suggestions and the current weather.\n' +
+    'Talk to me about cats!');
+  });
+});
 
 // defualt
-controller.hears([''], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+controller.hears('', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
     // todo: say "I can be random too!", followed by random quote (use API)
     bot.reply(message, 'Vox clamantis in deserto.');
