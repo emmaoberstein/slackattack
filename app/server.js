@@ -1,9 +1,7 @@
 
 import botkit from 'botkit';
-const request = require('request');
-const Yelp = require('yelp');
-// this is es6 syntax for importing libraries
-// in older js this would be: var botkit = require('botkit')
+import request from 'request';
+import Yelp from 'yelp';
 
 // botkit controller
 const controller = botkit.slackbot({
@@ -19,6 +17,7 @@ const slackbot = controller.spawn({
   if (err) { throw new Error(err); }
 });
 
+// intialize yelp
 const yelp = new Yelp({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -27,7 +26,6 @@ const yelp = new Yelp({
 });
 
 // prepare webhook
-// for now we won't use this but feel free to look up slack webhooks
 controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
   controller.createWebhookEndpoints(webserver, slackbot, () => {
     if (err) { throw new Error(err); }
@@ -45,8 +43,8 @@ controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 
   });
 });
 
-// food queries via yelp API
-controller.hears(['hungry', 'hunger', 'food'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+// food queries via Yelp API
+controller.hears(['hungry', 'hunger', 'food', 'restaurant'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   function askFlavor(response, convo) {
     convo.ask('Would you like food recomendations near you?', [
       {
@@ -59,7 +57,6 @@ controller.hears(['hungry', 'hunger', 'food'], ['direct_message', 'direct_mentio
       {
         pattern: bot.utterances.yes,
         callback: () => {
-          // do something else...
           askType(convo);
           convo.next();
         },
@@ -116,7 +113,7 @@ controller.hears(['hungry', 'hunger', 'food'], ['direct_message', 'direct_mentio
   bot.startConversation(message, askFlavor);
 });
 
-// food queries via yelp API
+// weather queries via Open Weather Map API
 controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   function askWeather(response, convo) {
     convo.ask('Would you like to hear the forecast?', [
@@ -130,7 +127,6 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
       {
         pattern: bot.utterances.yes,
         callback: () => {
-          // do something else...
           askZip(convo);
           convo.next();
         },
@@ -224,7 +220,7 @@ controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, 
   });
 });
 
-// defualt
+// default
 controller.hears('', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
     // todo: say "I can be random too!", followed by random quote (use API)
