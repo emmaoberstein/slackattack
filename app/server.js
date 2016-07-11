@@ -108,7 +108,7 @@ controller.hears(['hungry', 'hunger', 'food', 'restaurant'], ['direct_message', 
             text: `rating: ${data.businesses[0].rating}`,
             attachments: [
               {
-                fallback: 'To be useful, I need you to invite me in a channel.',
+            //    fallback: 'To be useful, I need you to invite me in a channel.',
                 title: `${data.businesses[0].name}`,
                 title_link: `${data.businesses[0].url}`,
                 text: `${data.businesses[0].snippet_text}`,
@@ -207,7 +207,7 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
         const attachments = {
           attachments: [
             {
-              fallback: 'To be useful, I need you to invite me in a channel.',
+            //  fallback: 'To be useful, I need you to invite me in a channel.',
               title: 'Today\'s Forecast',
               text: `The current temperature in ${weather.name} is ${weather.main.temp}\n` +
               `The high is ${weather.main.temp_max}° and the low is ${weather.main.temp_min}°\n` +
@@ -232,19 +232,7 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
 controller.hears(['cat', 'kitten', 'kitty'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   // retrieve timestampt to avoid repeats
   const time = new Date().getTime();
-  const attachments = {
-    text: 'I love cats!',
-    attachments: [
-      {
-        fallback: 'To be useful, I need you to invite me in a channel.',
-        color: '#7CD197',
-        image_url: `http://thecatapi.com/api/images/get?format=src&type=gif&timestamp=${time}`,
-      },
-    ],
-  };
-
-  // return result to user
-  bot.reply(message, attachments);
+  bot.replyPublic(message, `I'm awake I promise!\nhttp://thecatapi.com/api/images/get?format=src&type=gif&timestamp=${time}`);
 });
 
 // display a help message
