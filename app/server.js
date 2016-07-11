@@ -224,7 +224,7 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
 });
 
 // Using attachments to display random cat gif
-controller.hears(['cat', 'kitten', 'kitty'], 'direct_message, direct_mention', (bot, message) => {
+controller.hears(['cat', 'kitten', 'kitty'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   // retrieve timestampt to avoid repeats
   const time = new Date().getTime();
   const attachments = {
