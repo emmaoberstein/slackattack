@@ -25,7 +25,7 @@ controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
 });
 
 // wake up
-controller.on('emma_bot', (bot, message) => {
+controller.on('outgoing_webhook', (bot, message) => {
   bot.replyPublic(message, 'yeah yeah');
 });
 
