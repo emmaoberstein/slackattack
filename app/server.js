@@ -228,7 +228,6 @@ controller.hears(['cat', 'kitten', 'kitty'], 'direct_message, direct_mention', (
   // retrieve timestampt to avoid repeats
   const time = new Date().getTime();
   const attachments = {
-    username: 'My bot',
     text: 'I love cats!',
     attachments: [
       {
