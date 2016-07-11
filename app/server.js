@@ -26,7 +26,7 @@ controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
 
 // wake up
 controller.on('outgoing_webhook', (bot, message) => {
-  bot.replyPublic(message, 'yeah yeah');
+  bot.replyPublic(message, `I'm awake I promise!\nhttp://giphy.com/gifs/tired-sleeping-morning-uMxlQ4Th8jYHu`);
 });
 
 // intialize yelp
@@ -41,8 +41,7 @@ const yelp = new Yelp({
 controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
     if (res) {
-      // bot.reply(message, `Hello, ${res.user.real_name}!`);
-      bot.reply(`I'm awake I promise!\nhttp://giphy.com/gifs/tired-sleeping-morning-uMxlQ4Th8jYHu`);
+      bot.reply(message, `Hello, ${res.user.real_name}!`);
     } else {
       bot.reply(message, 'Hello there!');
     }
