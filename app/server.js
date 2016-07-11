@@ -232,7 +232,18 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
 controller.hears(['cat', 'kitten', 'kitty'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   // retrieve timestampt to avoid repeats
   const time = new Date().getTime();
-  bot.reply(message, `I'm awake I promise!\nhttp://thecatapi.com/api/images/get?format=src&type=gif&timestamp=${time}`);
+  const attachments = {
+    text: 'I love cats!',
+    attachments: [
+      {
+        color: '#7CD197',
+        image_url: `http://thecatapi.com/api/images/get?format=src&type=gif&timestamp=${time}`,
+      },
+    ],
+  };
+
+   // return result to user
+  bot.reply(message, attachments);
 });
 
 // display a help message
