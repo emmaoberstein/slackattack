@@ -229,20 +229,21 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
 });
 
 // Using attachments to display random cat gif
-controller.hears(['cat', 'kitten', 'kitty'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+controller.hears(['cat', 'kitten', 'kitty'], 'direct_message, direct_mention', (bot, message) => {
   // retrieve timestampt to avoid repeats
   const time = new Date().getTime();
   const attachments = {
     text: 'I love cats!',
     attachments: [
       {
+        text: 'I love cats!',
         color: '#7CD197',
         image_url: `http://thecatapi.com/api/images/get?format=src&type=gif&timestamp=${time}`,
       },
     ],
   };
 
-   // return result to user
+  // return result to user
   bot.reply(message, attachments);
 });
 
