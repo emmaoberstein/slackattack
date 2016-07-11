@@ -24,6 +24,11 @@ controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
   });
 });
 
+// wake up
+controller.on('emma_bot', (bot, message) => {
+  bot.replyPublic(message, 'yeah yeah');
+});
+
 // intialize yelp
 const yelp = new Yelp({
   consumer_key: process.env.CONSUMER_KEY,
@@ -240,11 +245,6 @@ controller.hears(['cat', 'kitten', 'kitty'], ['direct_message', 'direct_mention'
 
   // return result to user
   bot.reply(message, attachments);
-});
-
-// wake up
-controller.on('emma_bot', (bot, message) => {
-  bot.replyPublic(message, 'yeah yeah');
 });
 
 // display a help message
