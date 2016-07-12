@@ -102,6 +102,7 @@ controller.hears(['hungry', 'hunger', 'food', 'restaurant'], ['direct_message', 
         if (data.businesses.length < 1) {
           // no result exists
           convo.say(`Hmm... I can't seem to find ${type.text} in ${response.text}`);
+          convo.next();
         } else {
           // return the first result in the list
           const attachments = {
