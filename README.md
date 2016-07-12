@@ -7,7 +7,11 @@ emma_bot returns results for restaurant queries
 
 emma_bot can give you the current forecast of any US zip code
 
+emma-bot can mimic you
+
 emma_bot can supply you with a random cat gif
+
+emma_bot can talk to robbot
 
 emma_bot by default will tell you that she does not understand you
 
@@ -23,3 +27,11 @@ emma_bot by default will tell you that she does not understand you
 ## Weather Queries
 
 ![](imgs/weather_queries.jpg)
+
+# Robbot
+
+![](imgs/robbot_message.jpg)
+
+# Mimic
+
+![](imgs/mimic_me.jpg)
