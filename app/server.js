@@ -40,8 +40,24 @@ const yelp = new Yelp({
 // simple hello response
 controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
-    if (res) {
+    if (res && res.user && res.user.real_name) {
       bot.reply(message, `Hello, ${res.user.real_name}!`);
+    } else {
+      bot.reply(message, 'Hello there!');
+    }
+  });
+});
+
+// mimic me
+controller.hears(['mimic me'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+  bot.api.users.info({ user: message.user }, (err, res) => {
+    if (res) {
+      var reply_with_attachments = {
+        username: `${res.username}`,
+        text: `blah blah blah I'm ${res.username}`,
+      };
+
+      bot.reply(message, reply_with_attachments);
     } else {
       bot.reply(message, 'Hello there!');
     }
@@ -261,7 +277,7 @@ controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, 
 // convo with robbot
 controller.hears('do you want to hear a joke?', ['direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
-    bot.reply(message, 'Hi, I\'m emma_bot!');
+    bot.reply(message, 'it better be good, robbot.');
   });
 });
 
