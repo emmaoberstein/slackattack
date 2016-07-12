@@ -271,7 +271,8 @@ controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, 
   bot.api.users.info({ user: message.user }, (err, res) => {
     bot.reply(message, 'Hi, I\'m emma_bot!\n' +
     'I can give you food suggestions and the current weather.\n' +
-    'Talk to me about cats!');
+    'Talk to me about cats or ask me to mimic you!' +
+    'I can also talk to robbot.');
   });
 });
 
