@@ -126,7 +126,6 @@ controller.hears(['hungry', 'hunger', 'food', 'restaurant'], ['direct_message', 
             text: `rating: ${data.businesses[0].rating}`,
             attachments: [
               {
-            //    fallback: 'To be useful, I need you to invite me in a channel.',
                 title: `${data.businesses[0].name}`,
                 title_link: `${data.businesses[0].url}`,
                 text: `${data.businesses[0].snippet_text}`,
@@ -225,7 +224,6 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
         const attachments = {
           attachments: [
             {
-            //  fallback: 'To be useful, I need you to invite me in a channel.',
               title: 'Today\'s Forecast',
               text: `The current temperature in ${weather.name} is ${weather.main.temp}\n` +
               `The high is ${weather.main.temp_max}° and the low is ${weather.main.temp_min}°\n` +
