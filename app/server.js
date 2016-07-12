@@ -54,7 +54,7 @@ controller.hears(['mimic me'], ['direct_message', 'direct_mention', 'mention'], 
     if (res) {
       const mimic = {
         username: `${res.user.real_name}`,
-        icon: `${res.user.image_24}`,
+        icon: 'https://s.graphiq.com/sites/default/files/620/media/images/Ditto_46359.jpg',
         text: `blah blah blah I'm ${res.user.real_name} :upside_down_face:`,
       };
 
