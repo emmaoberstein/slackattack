@@ -40,7 +40,7 @@ const yelp = new Yelp({
 // simple hello response
 controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
-    if (res && res.user && res.user.real_name) {
+    if (res && res.user.real_name) {
       bot.reply(message, `Hello, ${res.user.real_name}!`);
     } else {
       bot.reply(message, 'Hello there!');
@@ -52,14 +52,14 @@ controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 
 controller.hears(['mimic me'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
     if (res) {
-      var reply_with_attachments = {
-        username: `${res.username}`,
-        text: `blah blah blah I'm ${res.username}`,
+      const mimic = {
+        username: `${user.name}`,
+        text: `blah blah blah I'm ${user.name}`,
       };
 
-      bot.reply(message, reply_with_attachments);
+      bot.reply(message, mimic);
     } else {
-      bot.reply(message, 'Hello there!');
+      bot.reply(message, 'I would, if I could find your username!');
     }
   });
 });
@@ -277,7 +277,13 @@ controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, 
 // convo with robbot
 controller.hears('do you want to hear a joke?', ['direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
-    bot.reply(message, 'it better be good, robbot.');
+    const msg = {
+                                                                  link_names: 1,
+                                                                  parse: 'full',
+                                                                  text: 'It is. A SQL query walks into a bar and sees two tables, so he asks "Can I join you?"... Haha?',
+                                                                  attachments: [],
+                                            };
+                                            bot.reply(message, msg);
   });
 });
 
