@@ -291,13 +291,7 @@ controller.hears('do you want to hear a joke?', ['direct_mention', 'mention'], (
 // convo with robbot
 controller.hears('A SQL query walks into a bar and sees two tables', ['direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
-    const msg = {
-      link_names: 1,
-      parse: 'full',
-      text: '@robbot: ...\nThat\'s not very funny.',
-      attachments: [],
-    };
-    bot.reply(message, msg);
+    bot.reply(message, '... that\'s not very funny');
   });
 });
 
