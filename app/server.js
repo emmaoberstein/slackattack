@@ -54,7 +54,7 @@ controller.hears(['mimic me'], ['direct_message', 'direct_mention', 'mention'], 
     if (res) {
       const mimic = {
         username: `${res.user.real_name}`,
-        text: `blah blah blah I'm ${res.user.real_name}`,
+        text: `blah blah blah I'm ${res.user.real_name} :upside_down_face:`,
       };
 
       bot.reply(message, mimic);
@@ -281,6 +281,20 @@ controller.hears('do you want to hear a joke?', ['direct_mention', 'mention'], (
       link_names: 1,
       parse: 'full',
       text: '@robbot: It better be good.',
+      attachments: [],
+    };
+    bot.reply(message, msg);
+  });
+});
+
+// convo with robbot
+controller.hears('It is. A SQL query walks into a bar and sees two tables,' +
+'so he asks "Can I join you?"... Haha?', ['direct_mention', 'mention'], (bot, message) => {
+  bot.api.users.info({ user: message.user }, (err, res) => {
+    const msg = {
+      link_names: 1,
+      parse: 'full',
+      text: '@robbot: ...\nThat\'s not very funny.',
       attachments: [],
     };
     bot.reply(message, msg);
