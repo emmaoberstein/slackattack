@@ -53,8 +53,8 @@ controller.hears(['mimic me'], ['direct_message', 'direct_mention', 'mention'], 
   bot.api.users.info({ user: message.user }, (err, res) => {
     if (res) {
       const mimic = {
-        username: `${user.name}`,
-        text: `blah blah blah I'm ${user.name}`,
+        username: `${res.user.name}`,
+        text: `blah blah blah I'm ${res.user.name}`,
       };
 
       bot.reply(message, mimic);
@@ -278,12 +278,12 @@ controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, 
 controller.hears('do you want to hear a joke?', ['direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
     const msg = {
-                                                                  link_names: 1,
-                                                                  parse: 'full',
-                                                                  text: 'It is. A SQL query walks into a bar and sees two tables, so he asks "Can I join you?"... Haha?',
-                                                                  attachments: [],
-                                            };
-                                            bot.reply(message, msg);
+      link_names: 1,
+      parse: 'full',
+      text: '@robbot: It better be good.',
+      attachments: [],
+    };
+    bot.reply(message, msg);
   });
 });
 
