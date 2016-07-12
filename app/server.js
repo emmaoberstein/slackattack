@@ -258,6 +258,19 @@ controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, 
   });
 });
 
+// convo with robbot
+controller.hears('@emma_bot: It\'s @robbot, how is it going?', 'direct_mention', (bot, message) => {
+  bot.api.users.info({ user: message.user }, (err, res) => {
+    bot.startConversation(message, response1);
+    // respond to hello
+    function response1(convo) {
+      convo.ask('Hi @robbot, I\'m doing well, how about yourself?', (response) => {
+        convo.next();
+      });
+    }
+  });
+});
+
 // default message when adressed
 controller.hears('', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
