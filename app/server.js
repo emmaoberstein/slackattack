@@ -53,13 +53,13 @@ controller.hears(['mimic me'], ['direct_message', 'direct_mention', 'mention'], 
   bot.api.users.info({ user: message.user }, (err, res) => {
     if (res) {
       const mimic = {
-        username: `${res.user.name}`,
-        text: `blah blah blah I'm ${res.user.name}`,
+        username: `${res.user.real_name}`,
+        text: `blah blah blah I'm ${res.user.real_name}`,
       };
 
       bot.reply(message, mimic);
     } else {
-      bot.reply(message, 'I would, if I could find your username!');
+      bot.reply(message, 'I would, if I could find your full name!');
     }
   });
 });
