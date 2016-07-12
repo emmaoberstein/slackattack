@@ -259,7 +259,7 @@ controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, 
 });
 
 // convo with robbot
-controller.hears('@emma_bot, It\'s @robbot, how is it going?', 'direct_mention', (bot, message) => {
+controller.hears('It\'s @robbot, how is it going?', 'direct_mention', (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
     bot.startConversation(message, response1);
     // respond to hello
