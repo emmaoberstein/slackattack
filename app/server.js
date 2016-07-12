@@ -124,7 +124,7 @@ controller.hears(['hungry', 'hunger', 'food', 'restaurant'], ['direct_message', 
         }
       }).catch((err) => {
         // search unsuccessful
-        convo.say(`Hm... I can't seem to find ${type.text} in ${response.text}`);
+        convo.say(`Hm... I can't seem to find your location, ${response.text}`);
         console.error(err);
         convo.next();
       });
