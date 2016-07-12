@@ -289,7 +289,7 @@ controller.hears('do you want to hear a joke?', ['direct_mention', 'mention'], (
 });
 
 // convo with robbot
-controller.hears('It is. A SQL query walks into a bar and sees two tables,' +
+controller.hears('it is. A SQL query walks into a bar and sees two tables,' +
 'so he asks "Can I join you?"... Haha?', ['direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
     const msg = {
