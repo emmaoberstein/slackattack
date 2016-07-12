@@ -220,9 +220,11 @@ controller.hears(['weather', 'forecast', 'temperature'], ['direct_message', 'dir
 
         // give the user the result
         convo.say(attachments);
+        convo.next();
       } else {
         // unsuccesful search
         convo.say('I can\'t seem to find the weather for that zip code.');
+        convo.next();
       }
     });
   }
