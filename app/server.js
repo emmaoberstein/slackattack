@@ -261,13 +261,7 @@ controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, 
 // convo with robbot
 controller.hears('do you want to hear a joke?', ['direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
-    bot.startConversation(message, response1);
-    // respond to hello
-    function response1(convo) {
-      convo.ask('Hi @robbot, I\'m doing well, how about yourself?', (response) => {
-        convo.next();
-      });
-    }
+    bot.reply(message, 'Hi, I\'m emma_bot!');
   });
 });
 
